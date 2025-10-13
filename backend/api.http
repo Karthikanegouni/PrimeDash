@@ -1,0 +1,80 @@
+# =========================================
+# Auth API Tests
+# =========================================
+
+### Signup
+POST http://localhost:5000/api/auth/signup
+Content-Type: application/json
+
+{
+  "name": "Karthik",
+  "email": "karthik@example.com",
+  "password": "password123"
+}
+
+### Login
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "karthik@example.com",
+  "password": "password123"
+}
+
+### Save token from login response
+# Example: token will be used in subsequent requests
+# @token = {{response.body.token}}
+
+
+# =========================================
+# User API Tests (Protected)
+# =========================================
+
+### Get Profile
+GET http://localhost:5000/api/users/profile
+Authorization: Bearer {{token}}
+
+### Update Profile
+PUT http://localhost:5000/api/users/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Karthik Goud",
+  "email": "karthik.goud@example.com",
+  "password": "newpassword123"
+}
+
+
+# =========================================
+# Task API Tests (Protected)
+# =========================================
+
+### Create Task
+POST http://localhost:5000/api/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Finish Primetrade Assignment",
+  "description": "Complete frontend and backend integration"
+}
+
+### Get All Tasks
+GET http://localhost:5000/api/tasks
+Authorization: Bearer {{token}}
+
+### Update Task
+PUT http://localhost:5000/api/tasks/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Finish Primetrade Assignment (Updated)",
+  "description": "Updated description",
+  "status": "completed"
+}
+
+### Delete Task
+DELETE http://localhost:5000/api/tasks/1
+Authorization: Bearer {{token}}
