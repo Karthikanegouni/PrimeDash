@@ -4,22 +4,10 @@
 
 ---
 
-## Table of Contents
+## Deployed Live Link
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Frontend Setup](#frontend-setup)
-- [Backend Setup](#backend-setup)
-- [Available Scripts](#available-scripts)
-- [Environment Variables](#environment-variables)
-- [Key Components](#key-components)
-- [Context and Routing](#context-and-routing)
-- [Deployment](#deployment)
-- [Notes](#notes)
+- ### [https://primedashak.netlify.app](https://primedashak.netlify.app/)
 
----
 
 ## Features
 
@@ -30,7 +18,7 @@
 - **Protected routes:** Only authenticated users access sensitive pages
 - **Responsive UI:** Optimized for desktop and mobile devices
 - **User experience:** Empty state indicators, tooltips, and form validation
-- **Secure API:** JWT-based authentication and secure cookies
+- **Secure API:** JWT-based authentication and secure cookies 1-day expiry
 
 ---
 
@@ -38,10 +26,24 @@
 
 | Layer    | Technologies used                          |
 | -------- | ------------------------------------------ |
-| Frontend | React, Tailwind CSS, Vite, Axios, Recharts |
+| Frontend | React, Tailwind CSS, Vite, Axios, Recharts, Context API |
 | Backend  | Node.js, Express, SQLite                   |
+| Deployment| render(backend), netlify(frontend)|
+
+- Server may take 50 - 60 secs to load as it is  free tier 
 
 ---
+
+
+## Snapshots of UI
+
+<img src="https://github.com/user-attachments/assets/0833a3a2-6d6e-420c-8d63-0a80274beb55" width="300"/>
+<img src="https://github.com/user-attachments/assets/e5f7a84c-c9bd-4d02-82f1-5f5933994812" width="300"/>
+<img src="https://github.com/user-attachments/assets/d6376a87-9758-4dab-84fd-a5d8b33ba499" width="300"/>
+
+<img src="https://github.com/user-attachments/assets/64bdee4c-8b12-4a4c-8920-7fafcd8a4d23" width="300"/>
+<img src="https://github.com/user-attachments/assets/12f81656-3202-4586-9c00-69d68af354e8" width="300"/>
+
 
 ## Project Structure
 
