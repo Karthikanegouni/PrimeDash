@@ -8,7 +8,6 @@
 
 - ### [https://primedashak.netlify.app](https://primedashak.netlify.app/)
 
-
 ## Features
 
 - **User authentication:** Secure login and registration
@@ -24,16 +23,15 @@
 
 ## Tech Stack
 
-| Layer    | Technologies used                          |
-| -------- | ------------------------------------------ |
-| Frontend | React, Tailwind CSS, Vite, Axios, Recharts, Context API |
-| Backend  | Node.js, Express, SQLite                   |
-| Deployment| render(backend), netlify(frontend)|
+| Layer      | Technologies used                                       |
+| ---------- | ------------------------------------------------------- |
+| Frontend   | React, Tailwind CSS, Vite, Axios, Recharts, Context API |
+| Backend    | Node.js, Express, SQLite                                |
+| Deployment | render(backend), netlify(frontend)                      |
 
-- Server may take 50 - 60 secs to load as it is  free tier 
+- Server may take 50 - 60 secs to load as it is free tier
 
 ---
-
 
 ## Snapshots of UI
 
@@ -43,7 +41,6 @@
 
 <img src="https://github.com/user-attachments/assets/64bdee4c-8b12-4a4c-8920-7fafcd8a4d23" width="300"/>
 <img src="https://github.com/user-attachments/assets/12f81656-3202-4586-9c00-69d68af354e8" width="300"/>
-
 
 ## Project Structure
 
@@ -211,8 +208,3 @@ Adjust settings as needed for your environment.
 ## License
 
 MIT
-
-```
-
-
-```
