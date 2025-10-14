@@ -37,7 +37,7 @@ const Tasks = () => {
   const handleDelete = async (id) => {
     try {
       const token = Cookies.get('jwt_token')
-      await axios.delete(`${apiUrl}/tasks/${id}}`, {
+      await axios.delete(`${apiUrl}/tasks/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       setTasks((prev) => prev.filter((task) => task.id !== id))
