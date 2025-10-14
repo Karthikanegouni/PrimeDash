@@ -1,6 +1,7 @@
 const express = require('express')
 const {
   getTasks,
+  getTaskStats,
   addTask,
   updateTask,
   deleteTask,
@@ -11,6 +12,7 @@ const router = express.Router()
 // All task routes are protected
 router.use(authMiddleware)
 
+router.get('/stats', getTaskStats)
 router.get('/', getTasks)
 router.post('/', addTask)
 router.put('/:id', updateTask)

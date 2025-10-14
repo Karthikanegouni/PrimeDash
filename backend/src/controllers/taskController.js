@@ -17,6 +17,31 @@ const getTasks = (req, res) => {
   )
 }
 
+//Get tasks Stats
+const getTaskStats = (req, res) => {
+  const userId = req.user.id
+
+  db.get(
+    `SELECT
+        COUNT(*) AS totalTasks,
+        SUM(CASE WHEN status='completed' THEN 1 ELSE 0 END) AS completedTasks,
+        SUM(CASE WHEN status='pending' THEN 1 ELSE 0 END) AS pendingTasks,
+        SUM(CASE WHEN status='in-progress' THEN 1 ELSE 0 END) AS inProgressTasks
+     FROM tasks
+     WHERE userId = ?`,
+    [userId],
+    (err, row) => {
+      if (err) return res.status(500).json({ message: 'Server error' })
+      res.json({
+        totalTasks: row.totalTasks,
+        completedTasks: row.completedTasks,
+        pendingTasks: row.pendingTasks,
+        inProgressTasks: row.inProgressTasks,
+      })
+    }
+  )
+}
+
 // Add new task
 const addTask = (req, res) => {
   const { title, description } = req.body
@@ -50,11 +75,9 @@ const updateTask = (req, res) => {
   const { title, description, status } = req.body
 
   if (!title && !description && !status) {
-    return res
-      .status(400)
-      .json({
-        message: 'At least one field (title, description, status) is required',
-      })
+    return res.status(400).json({
+      message: 'At least one field (title, description, status) is required',
+    })
   }
 
   // First, check if the task exists and belongs to the user
@@ -113,4 +136,4 @@ const deleteTask = (req, res) => {
   )
 }
 
-module.exports = { getTasks, addTask, updateTask, deleteTask }
+module.exports = { getTaskStats, getTasks, addTask, updateTask, deleteTask }

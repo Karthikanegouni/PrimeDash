@@ -77,7 +77,7 @@ backend/
 1. Clone the repository:
 
 ```bash
-git clone <your-repo-link>
+git clone https://github.com/Karthikanegouni/PrimeDash
 cd backend
 ```
 
@@ -122,12 +122,13 @@ npm start
 
 ### Tasks (Protected)
 
-| Method | Endpoint       | Description               |
-| ------ | -------------- | ------------------------- |
-| GET    | /api/tasks     | Get all tasks of the user |
-| POST   | /api/tasks     | Create a new task         |
-| PUT    | /api/tasks/:id | Update a task             |
-| DELETE | /api/tasks/:id | Delete a task             |
+| Method | Endpoint         | Description               |
+| ------ | ---------------- | ------------------------- |
+| GET    | /api/tasks/stats | Get Stats of tasks        |
+| GET    | /api/tasks       | Get all tasks of the user |
+| POST   | /api/tasks       | Create a new task         |
+| PUT    | /api/tasks/:id   | Update a task             |
+| DELETE | /api/tasks/:id   | Delete a task             |
 
 ---
 

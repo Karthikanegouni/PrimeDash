@@ -41,7 +41,7 @@ Content-Type: application/json
 
 {
   "name": "Karthik Goud",
-  "email": "karthik.goud@example.com",
+  "email": "karthik@example.com",
   "password": "newpassword123"
 }
 
@@ -59,6 +59,12 @@ Content-Type: application/json
   "title": "Finish Primetrade Assignment",
   "description": "Complete frontend and backend integration"
 }
+
+
+### Get Tasks Stats
+
+GET http://localhost:5000/api/tasks/stats
+Authorization: Bearer {{token}}
 
 ### Get All Tasks
 GET http://localhost:5000/api/tasks

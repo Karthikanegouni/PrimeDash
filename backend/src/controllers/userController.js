@@ -9,7 +9,21 @@ const getProfile = (req, res) => {
     (err, user) => {
       if (err) return res.status(500).json({ message: 'Server error' })
       if (!user) return res.status(404).json({ message: 'User not found' })
-      res.json(user)
+
+      // Count total tasks for this user
+      db.get(
+        `SELECT COUNT(*) as totalTasks FROM tasks WHERE userId = ?`,
+        [req.user.id],
+        (err2, taskCount) => {
+          if (err2) return res.status(500).json({ message: 'Server error' })
+          res.json({ 
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            totalTasks: taskCount.totalTasks
+          })
+        }
+      )
     }
   )
 }
