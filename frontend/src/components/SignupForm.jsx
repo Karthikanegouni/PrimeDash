@@ -19,7 +19,10 @@ const SignupForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === 'email' ? value.toLowerCase() : value,
+    }))
     setErrors((prev) => ({ ...prev, [name]: '' }))
     setServerError('')
     setSuccessMessage('')
@@ -54,7 +57,7 @@ const SignupForm = () => {
     try {
       const response = await axios.post(`${apiUrl}/auth/signup`, formData)
 
-      // Optionally save token after signup
+      // Save token if present
       if (response.data.token) {
         Cookies.set('jwt_token', response.data.token, { expires: 1 })
       }
@@ -65,10 +68,10 @@ const SignupForm = () => {
       setServerError('')
       setFormData({ name: '', email: '', password: '' })
 
-      // Redirect after a short delay
+      // Redirect after short delay
       setTimeout(() => navigate('/'), 1500)
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.message) {
+      if (err.response?.data?.message) {
         setServerError(err.response.data.message)
       } else {
         setServerError('Server error. Please try again.')
@@ -95,6 +98,7 @@ const SignupForm = () => {
         <p className="text-red-500 text-sm mb-4 text-center">{serverError}</p>
       )}
 
+      {/* Name */}
       <div className="mb-4">
         <label htmlFor="name" className="block mb-2 font-medium text-gray-700">
           Name
@@ -116,6 +120,7 @@ const SignupForm = () => {
         )}
       </div>
 
+      {/* Email */}
       <div className="mb-4">
         <label htmlFor="email" className="block mb-2 font-medium text-gray-700">
           Email
@@ -137,6 +142,7 @@ const SignupForm = () => {
         )}
       </div>
 
+      {/* Password */}
       <div className="mb-6">
         <label
           htmlFor="password"

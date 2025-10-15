@@ -4,8 +4,14 @@ const { generateToken } = require('../utils/jwtUtils')
 
 // Signup
 const signup = async (req, res) => {
-  const { name, email, password } = req.body
+  let { name, email, password } = req.body
 
+  // Normalize inputs
+  name = name?.trim()
+  email = email?.trim().toLowerCase()
+  password = password?.trim()
+
+  // Basic validation
   if (!name || !email || !password) {
     return res.status(400).json({
       success: false,
@@ -22,17 +28,35 @@ const signup = async (req, res) => {
   }
 
   try {
+    // Check if email already exists
+    const existingUser = await new Promise((resolve, reject) => {
+      db.get(
+        `SELECT id FROM users WHERE LOWER(email) = LOWER(?)`,
+        [email],
+        (err, row) => (err ? reject(err) : resolve(row))
+      )
+    })
+
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        message: 'This email is already registered. Try logging in.',
+      })
+    }
+
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10)
 
+    // Insert user
     db.run(
       `INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
       [name, email, hashedPassword],
       function (err) {
         if (err) {
-          // likely email already exists
-          return res.status(409).json({
+          console.error('DB insert error:', err)
+          return res.status(500).json({
             success: false,
-            message: 'This email is already registered. Try logging in.',
+            message: 'Server error. Please try again later.',
           })
         }
 
@@ -45,6 +69,7 @@ const signup = async (req, res) => {
       }
     )
   } catch (err) {
+    console.error(err)
     return res.status(500).json({
       success: false,
       message:
@@ -55,7 +80,11 @@ const signup = async (req, res) => {
 
 // Login
 const login = (req, res) => {
-  const { email, password } = req.body
+  let { email, password } = req.body
+
+  // Normalize inputs
+  email = email?.trim().toLowerCase()
+  password = password?.trim()
 
   if (!email || !password) {
     return res.status(400).json({
@@ -64,41 +93,46 @@ const login = (req, res) => {
     })
   }
 
-  db.get(`SELECT * FROM users WHERE email = ?`, [email], async (err, user) => {
-    if (err) {
-      return res.status(500).json({
-        success: false,
-        message: 'Server error occurred. Please try again later.',
+  db.get(
+    `SELECT * FROM users WHERE LOWER(email) = LOWER(?)`,
+    [email],
+    async (err, user) => {
+      if (err) {
+        console.error('DB select error:', err)
+        return res.status(500).json({
+          success: false,
+          message: 'Server error occurred. Please try again later.',
+        })
+      }
+
+      if (!user) {
+        return res.status(401).json({
+          success: false,
+          message: 'No account found with this email. Please sign up first.',
+        })
+      }
+
+      const match = await bcrypt.compare(password, user.password)
+      if (!match) {
+        return res.status(401).json({
+          success: false,
+          message: 'Incorrect password. Please try again.',
+        })
+      }
+
+      const token = generateToken(user)
+      return res.status(200).json({
+        success: true,
+        message: `Welcome back, ${user.name}! You have successfully logged in.`,
+        token,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        },
       })
     }
-
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: 'No account found with this email. Please sign up first.',
-      })
-    }
-
-    const match = await bcrypt.compare(password, user.password)
-    if (!match) {
-      return res.status(401).json({
-        success: false,
-        message: 'Incorrect password. Please try again.',
-      })
-    }
-
-    const token = generateToken(user)
-    return res.status(200).json({
-      success: true,
-      message: `Welcome back, ${user.name}! You have successfully logged in.`,
-      token,
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
-    })
-  })
+  )
 }
 
 module.exports = { signup, login }

@@ -27,7 +27,7 @@ const UpdateProfileForm = () => {
     setError('')
     setSuccessMsg('')
     try {
-      const updateData = { name: profile.name, email: profile.email }
+      const updateData = { name: profile.name, email: profile.email.toLowerCase() }
       if (profile.password) updateData.password = profile.password
 
       await axios.put(`${apiUrl}/users/profile`, updateData, {
@@ -36,7 +36,7 @@ const UpdateProfileForm = () => {
 
       setSuccessMsg('Profile updated successfully')
       updateUsername(profile.name)
-      updateEmail(profile.email)
+      updateEmail(profile.email.toLowerCase())
       setProfile({ ...profile, password: '' })
       setShowPassword(false)
     } catch (err) {

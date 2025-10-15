@@ -45,7 +45,7 @@ const LoginForm = () => {
 
     try {
       const response = await axios.post(`${apiUrl}/auth/login`, {
-        email: formData.email,
+        email: formData.email.toLowerCase(),
         password: formData.password,
       })
 
@@ -78,7 +78,7 @@ const LoginForm = () => {
           type="text"
           id="email"
           name="email"
-          value={formData.email}
+          value={formData.email.toLowerCase()}
           onChange={handleChange}
           placeholder="Enter your email"
           className={`w-full border rounded-md px-3 py-2 outline-none  ${
