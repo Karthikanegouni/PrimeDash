@@ -14,6 +14,7 @@ const SignupForm = () => {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState({})
+  const [isSubmitted, setIsSubmitted] = useState(false)
   const [serverError, setServerError] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
 
@@ -47,6 +48,7 @@ const SignupForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsSubmitted(true)
 
     const validationErrors = validate()
     if (Object.keys(validationErrors).length > 0) {
@@ -76,6 +78,8 @@ const SignupForm = () => {
       } else {
         setServerError('Server error. Please try again.')
       }
+    } finally {
+      setIsSubmitted(false)
     }
   }
 
@@ -179,9 +183,10 @@ const SignupForm = () => {
 
       <button
         type="submit"
-        className="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 rounded-md transition duration-200"
+        disabled={isSubmitted}
+        className="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 rounded-md transition duration-200 disabled:bg-zinc-500 disabled:cursor-not-allowed"
       >
-        Sign Up
+        {isSubmitted ? 'Signing up...' : 'Sign up'}
       </button>
 
       <p className="text-center text-gray-600 text-sm mt-4">

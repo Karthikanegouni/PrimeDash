@@ -8,6 +8,7 @@ const apiUrl = import.meta.env.VITE_API_URL
 const LoginForm = () => {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({ email: '', password: '' })
+  const [isSubmitted, setIsSubmitted] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState({}) // client validation
   const [serverError, setServerError] = useState('') // backend error
@@ -35,6 +36,7 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsSubmitted(true)
 
     // Client-side validation
     const validationErrors = validate()
@@ -58,6 +60,8 @@ const LoginForm = () => {
       } else {
         setServerError('Server error. Please try again.')
       }
+    } finally {
+      setIsSubmitted(false)
     }
   }
 
@@ -130,9 +134,10 @@ const LoginForm = () => {
 
       <button
         type="submit"
-        className="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 rounded-md transition duration-200"
+        disabled={isSubmitted}
+        className="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 rounded-md transition duration-200 disabled:bg-zinc-500 disabled:cursor-not-allowed"
       >
-        Login
+        {isSubmitted ? 'Logging in...' : 'Login'}
       </button>
 
       <p className="text-center text-gray-600 text-sm mt-4">
