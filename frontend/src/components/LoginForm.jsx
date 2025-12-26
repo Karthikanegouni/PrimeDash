@@ -36,7 +36,6 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setIsSubmitted(true)
 
     // Client-side validation
     const validationErrors = validate()
@@ -44,7 +43,7 @@ const LoginForm = () => {
       setErrors(validationErrors)
       return
     }
-
+    setIsSubmitted(true)
     try {
       const response = await axios.post(`${apiUrl}/auth/login`, {
         email: formData.email.toLowerCase(),
