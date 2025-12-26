@@ -48,7 +48,6 @@ const SignupForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setIsSubmitted(true)
 
     const validationErrors = validate()
     if (Object.keys(validationErrors).length > 0) {
@@ -56,6 +55,7 @@ const SignupForm = () => {
       return
     }
 
+    setIsSubmitted(true)
     try {
       const response = await axios.post(`${apiUrl}/auth/signup`, formData)
 
@@ -171,6 +171,7 @@ const SignupForm = () => {
           />
           <button
             onClick={handleTogglePassword}
+            type='button'
             className="bg-transparent ml-2"
           >
             {showPassword ? <RiEyeFill /> : <RiEyeCloseFill />}
